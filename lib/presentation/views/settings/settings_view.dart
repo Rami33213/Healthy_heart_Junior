@@ -1,0 +1,414 @@
+// presentation/views/settings/settings_view.dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:healthy_heart_junior/core/constants/app_colors.dart';
+import 'package:healthy_heart_junior/core/constants/app_styles.dart';
+import 'package:healthy_heart_junior/presentation/controllers/user_controller.dart';
+import 'package:healthy_heart_junior/presentation/views/ecg_analysis/ecg_history_view.dart';
+import 'package:healthy_heart_junior/presentation/views/expert_system/expert_history_view.dart';
+import 'package:healthy_heart_junior/presentation/views/heart_rate/heart_rate_history_view.dart';
+import 'package:healthy_heart_junior/presentation/views/lab_analysis/lab_history_view.dart';
+
+class SettingsView extends GetView<UserController> {
+  const SettingsView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              _buildHeader(),
+              const SizedBox(height: 24),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildProfileSection(),
+                      const SizedBox(height: 24),
+                      _buildSettingsSection(),
+                      const SizedBox(height: 24),
+                      _buildMedicalReportsSection(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Row(
+      children: [
+        IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          'الإعدادات والتقارير',
+          style: AppStyles.headlineMedium.copyWith(
+            color: AppColors.textPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProfileSection() {
+    return Obx(() {
+      final user = controller.currentUser.value;
+      return Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    gradient: AppColors.primaryGradient,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(Icons.person, color: Colors.white, size: 30),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        user.name ?? 'مستخدم',
+                        style: AppStyles.titleLarge.copyWith(
+                          color: AppColors.textPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        user.email ?? 'لا يوجد بريد إلكتروني',
+                        style: AppStyles.bodyMedium.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  onPressed: _editProfile,
+                  icon: Icon(Icons.edit, color: AppColors.primary),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Divider(color: AppColors.textSecondary.withOpacity(0.3)),
+            const SizedBox(height: 16),
+            _buildProfileInfoItem('الجنس', user.gender ?? 'غير محدد'),
+            _buildProfileInfoItem(
+              'العمر',
+              user.age != null ? '${user.age} سنة' : 'غير محدد',
+            ),
+            _buildProfileInfoItem('الموقع', user.location ?? 'غير محدد'),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _buildProfileInfoItem(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Text(
+            '$label: ',
+            style: AppStyles.bodyMedium.copyWith(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            value,
+            style: AppStyles.bodyMedium.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSettingsSection() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'الإعدادات',
+            style: AppStyles.titleMedium.copyWith(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          _buildSettingItem('الإشعارات', Icons.notifications, true, (value) {}),
+          _buildSettingItem(
+            'المظهر الداكن',
+            Icons.dark_mode,
+            false,
+            (value) {},
+          ),
+          _buildSettingItem(
+            'اللغة',
+            Icons.language,
+            null,
+            () {},
+            trailingText: 'العربية',
+          ),
+          _buildSettingItem('خصوصية البيانات', Icons.security, null, () {}),
+          _buildSettingItem('حول التطبيق', Icons.info, null, () {}),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSettingItem(
+    String title,
+    IconData icon,
+    bool? isSwitch,
+    dynamic onChanged, {
+    String? trailingText,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: isSwitch == null ? onChanged : null,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+            child: Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, color: AppColors.primary, size: 20),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: AppStyles.bodyMedium.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ),
+                if (isSwitch != null)
+                  Switch(
+                    value: isSwitch,
+                    onChanged: onChanged,
+                    activeColor: AppColors.primary,
+                  )
+                else if (trailingText != null)
+                  Text(
+                    trailingText,
+                    style: AppStyles.bodyMedium.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  )
+                else
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                    color: AppColors.textSecondary,
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMedicalReportsSection() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'التقارير الطبية',
+            style: AppStyles.titleMedium.copyWith(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          // في presentation/views/settings/settings_view.dart
+          // استبدل هذا الجزء:
+          _buildReportItem('تقارير ضربات القلب', Icons.favorite, () {
+            Get.to(() => HeartRateHistoryView());
+          }),
+          _buildReportItem('تقارير تحليل ECG', Icons.monitor_heart_rounded, () {
+            Get.to(() => EcgHistoryView());
+          }),
+          _buildReportItem('تقارير التحاليل المخبرية', Icons.science, () {
+            Get.to(() => LabHistoryView());
+          }),
+          _buildReportItem('سجل الاستشارات', Icons.medical_services, () {
+            Get.to(() => ExpertHistoryView());
+          }),
+
+          // يصبح:
+          _buildReportItem('تقارير ضربات القلب', Icons.favorite, () {
+            Get.to(() => const HeartRateHistoryView());
+          }),
+          _buildReportItem('تقارير تحليل ECG', Icons.monitor_heart_rounded, () {
+            Get.to(() => const EcgHistoryView());
+          }),
+          _buildReportItem('تقارير التحاليل المخبرية', Icons.science, () {
+            Get.to(() => const LabHistoryView());
+          }),
+          _buildReportItem('سجل الاستشارات', Icons.medical_services, () {
+            Get.to(() => const ExpertHistoryView());
+          }),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReportItem(String title, IconData icon, VoidCallback onTap) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+            child: Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AppColors.accent.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, color: AppColors.accent, size: 20),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: AppStyles.bodyMedium.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                  color: AppColors.textSecondary,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _editProfile() {
+    Get.defaultDialog(
+      title: 'تعديل الملف الشخصي',
+      content: Column(
+        children: [
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'الاسم',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(height: 16),
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'العمر',
+              border: OutlineInputBorder(),
+            ),
+            keyboardType: TextInputType.number,
+          ),
+          SizedBox(height: 16),
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'الموقع',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(onPressed: () => Get.back(), child: Text('إلغاء')),
+        ElevatedButton(
+          onPressed: () {
+            // تحديث البيانات
+            Get.back();
+            Get.snackbar('نجاح', 'تم تحديث الملف الشخصي');
+          },
+          child: Text('حفظ'),
+        ),
+      ],
+    );
+  }
+}

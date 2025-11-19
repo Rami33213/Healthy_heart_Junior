@@ -61,14 +61,14 @@ class HomeView extends GetView<MainController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'مرحباً، ${user.name ?? "مستخدم"}',
+                'Hello ${user.name ?? "User"}',
                 style: AppStyles.headlineMedium.copyWith(
                   color: AppColors.textPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                'حافظ على صحة قلبك',
+                'Keep your heart healthy',
                 style: AppStyles.bodyMedium.copyWith(
                   color: AppColors.textSecondary,
                 ),
@@ -105,7 +105,7 @@ class HomeView extends GetView<MainController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'آخر الأخبار الطبية',
+            'Latest medical news',
             style: AppStyles.titleMedium.copyWith(
               fontWeight: FontWeight.bold,
               color: AppColors.textPrimary,
@@ -130,7 +130,7 @@ class HomeView extends GetView<MainController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'تطورات جديدة في علاج القلب',
+                          'New developments in heart treatment',
                           style: AppStyles.bodyMedium.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -138,7 +138,7 @@ class HomeView extends GetView<MainController> {
                         ),
                         const Spacer(),
                         Text(
-                          'اقرأ المزيد →',
+                          'Read more →',
                           style: AppStyles.bodySmall.copyWith(
                             color: Colors.white.withOpacity(0.8),
                           ),
@@ -174,9 +174,9 @@ class HomeView extends GetView<MainController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildStatItem('72', 'نبضة/دقيقة', Icons.favorite, AppColors.danger),
-              _buildStatItem('120/80', 'ضغط الدم', Icons.monitor_heart, AppColors.primary),
-              _buildStatItem('98', 'تشبع الأكسجين', Icons.water_drop, AppColors.success),
+              _buildStatItem('72', 'pulses/minute', Icons.favorite, AppColors.danger),
+              _buildStatItem('120/80', 'blood pressure', Icons.monitor_heart, AppColors.primary),
+              _buildStatItem('98', 'oxygen saturation', Icons.water_drop, AppColors.success),
             ],
           ),
         ],
@@ -220,7 +220,7 @@ class HomeView extends GetView<MainController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'نصائح صحية لك',
+            'Health tips for you',
             style: AppStyles.titleMedium.copyWith(
               fontWeight: FontWeight.bold,
               color: AppColors.textPrimary,
@@ -260,7 +260,7 @@ class HomeView extends GetView<MainController> {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          'احرص على ممارسة الرياضة 30 دقيقة يومياً',
+                          'Make sure to exercise for 30 minutes daily.',
                           style: AppStyles.bodyMedium.copyWith(
                             color: AppColors.textPrimary,
                           ),

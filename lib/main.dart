@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialBinding: MainBinding(),
       home: const MainAppView(),
-      locale: const Locale('ar'),
-      fallbackLocale: const Locale('ar'),
+      locale: const Locale('en'),
+      fallbackLocale: const Locale('en'),
       defaultTransition: Transition.cupertino,
       themeMode: ThemeMode.light,
     );

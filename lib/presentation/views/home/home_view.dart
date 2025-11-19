@@ -23,15 +23,15 @@ class HomeView extends GetView<MainController> {
               // الهيدر
               _buildHeader(),
               const SizedBox(height: 24),
-              
+
               // شريط الأخبار
               _buildNewsSection(),
               const SizedBox(height: 24),
-              
+
               // الإحصائيات الصحية
               _buildHealthStats(),
               const SizedBox(height: 24),
-              
+
               // النصائح الصحية
               _buildHealthTips(),
             ],
@@ -40,7 +40,7 @@ class HomeView extends GetView<MainController> {
       ),
     );
   }
-  
+
   Widget _buildHeader() {
     return Obx(() {
       final user = controller.currentUser.value;
@@ -61,14 +61,14 @@ class HomeView extends GetView<MainController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'مرحباً، ${user.name ?? "مستخدم"}',
+                'Hello ${user.name ?? "User"}',
                 style: AppStyles.headlineMedium.copyWith(
                   color: AppColors.textPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                'حافظ على صحة قلبك',
+                'Keep your heart healthy',
                 style: AppStyles.bodyMedium.copyWith(
                   color: AppColors.textSecondary,
                 ),
@@ -97,15 +97,15 @@ class HomeView extends GetView<MainController> {
       );
     });
   }
-  
+
   Widget _buildNewsSection() {
     return Container(
-      height: 120,
+      height: 200,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'آخر الأخبار الطبية',
+            'Latest medical news',
             style: AppStyles.titleMedium.copyWith(
               fontWeight: FontWeight.bold,
               color: AppColors.textPrimary,
@@ -130,7 +130,7 @@ class HomeView extends GetView<MainController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'تطورات جديدة في علاج القلب',
+                          'New developments in heart treatment',
                           style: AppStyles.bodyMedium.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -138,7 +138,7 @@ class HomeView extends GetView<MainController> {
                         ),
                         const Spacer(),
                         Text(
-                          'اقرأ المزيد →',
+                          'Read more →',
                           style: AppStyles.bodySmall.copyWith(
                             color: Colors.white.withOpacity(0.8),
                           ),
@@ -154,37 +154,55 @@ class HomeView extends GetView<MainController> {
       ),
     );
   }
-  
+
   Widget _buildHealthStats() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 20,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildStatItem('72', 'نبضة/دقيقة', Icons.favorite, AppColors.danger),
-              _buildStatItem('120/80', 'ضغط الدم', Icons.monitor_heart, AppColors.primary),
-              _buildStatItem('98', 'تشبع الأكسجين', Icons.water_drop, AppColors.success),
-            ],
-          ),
-        ],
-      ),
+    return
+    // Container(
+    //   padding: const EdgeInsets.all(20),
+    //   decoration: BoxDecoration(
+    //     color: AppColors.surface,
+    //     borderRadius: BorderRadius.circular(20),
+    //     boxShadow: [
+    //       BoxShadow(
+    //         color: Colors.black.withOpacity(0.05),
+    //         blurRadius: 20,
+    //         offset: const Offset(0, 5),
+    //       ),
+    //     ],
+    //   ),
+    Column(
+      children: [
+        Row(
+          children: [
+            Text(
+              "Services",
+              style: AppStyles.titleMedium.copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildStatItem('Doctors', Icons.person, AppColors.primary),
+            _buildStatItem('Laboratory', Icons.science, AppColors.warning),
+            _buildStatItem(
+              'Assistant',
+              Icons.medical_services,
+              AppColors.success,
+              
+            ),
+          ],
+        ),
+      ],
     );
+    //  );
   }
-  
-  Widget _buildStatItem(String value, String label, IconData icon, Color color) {
+
+  Widget _buildStatItem(String label, IconData icon, Color color) {
     return Column(
       children: [
         Container(
@@ -192,35 +210,39 @@ class HomeView extends GetView<MainController> {
           height: 60,
           decoration: BoxDecoration(
             color: color.withOpacity(0.1),
-            shape: BoxShape.circle,
+            // shape: BoxShape.circle,
+            borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(icon, color: color, size: 24),
+          child: IconButton(
+            icon: Icon(icon),
+            color: color,
+            iconSize: 30,
+            onPressed: () {},
+          ),
         ),
         const SizedBox(height: 8),
-        Text(
-          value,
-          style: AppStyles.titleLarge.copyWith(
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
-          ),
-        ),
+        // Text(
+        //   value,
+        //   style: AppStyles.titleLarge.copyWith(
+        //     fontWeight: FontWeight.bold,
+        //     color: AppColors.textPrimary,
+        //   ),
+        // ),
         Text(
           label,
-          style: AppStyles.bodySmall.copyWith(
-            color: AppColors.textSecondary,
-          ),
+          style: AppStyles.bodySmall.copyWith(color: AppColors.textPrimary),
         ),
       ],
     );
   }
-  
+
   Widget _buildHealthTips() {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'نصائح صحية لك',
+            'Health tips for you',
             style: AppStyles.titleMedium.copyWith(
               fontWeight: FontWeight.bold,
               color: AppColors.textPrimary,
@@ -254,13 +276,16 @@ class HomeView extends GetView<MainController> {
                           color: AppColors.accent.withOpacity(0.1),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.medical_services, 
-                            color: AppColors.accent, size: 20),
+                        child: Icon(
+                          Icons.medical_services,
+                          color: AppColors.accent,
+                          size: 20,
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          'احرص على ممارسة الرياضة 30 دقيقة يومياً',
+                          'Make sure to exercise for 30 minutes daily.',
                           style: AppStyles.bodyMedium.copyWith(
                             color: AppColors.textPrimary,
                           ),

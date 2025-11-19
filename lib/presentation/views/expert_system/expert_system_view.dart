@@ -15,23 +15,25 @@ class ExpertSystemView extends GetView<ExpertController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              _buildHeader(),
-              const SizedBox(height: 24),
-              Expanded(
-                child: Obx(() {
-                  if (controller.consultationComplete.value) {
-                    return _buildResultsSection();
-                  } else {
-                    return _buildQuestionSection();
-                  }
-                }),
-              ),
-            ],
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                _buildHeader(),
+                const SizedBox(height: 24),
+                Expanded(
+                  child: Obx(() {
+                    if (controller.consultationComplete.value) {
+                      return _buildResultsSection();
+                    } else {
+                      return _buildQuestionSection();
+                    }
+                  }),
+                ),
+              ],
+            ),
           ),
         ),
       ),

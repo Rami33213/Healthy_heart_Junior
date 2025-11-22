@@ -5,7 +5,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
 import 'package:healthy_heart_junior/core/constants/app_styles.dart';
-import 'package:healthy_heart_junior/presentation/controllers/theme_controller.dart';
 import 'package:healthy_heart_junior/presentation/controllers/user_controller.dart';
 import 'package:healthy_heart_junior/presentation/views/ecg_analysis/ecg_history_view.dart';
 import 'package:healthy_heart_junior/presentation/views/expert_system/expert_history_view.dart';
@@ -187,10 +186,8 @@ class SettingsView extends GetView<UserController> {
           _buildSettingItem(
             ' Dark mode',
             Icons.dark_mode,
-            Get.find<ThemeController>().isDarkMode.value,
-            (value) {
-               Get.find<ThemeController>().toggleTheme(value!);
-            },
+            false,
+            (value) {},
           ),
           _buildSettingItem(
             'Language',

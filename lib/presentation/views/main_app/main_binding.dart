@@ -8,14 +8,12 @@ import 'package:healthy_heart_junior/presentation/controllers/expert_controller.
 import 'package:healthy_heart_junior/presentation/controllers/heart_rate_controller.dart';
 import 'package:healthy_heart_junior/presentation/controllers/lab_controller.dart';
 import 'package:healthy_heart_junior/presentation/controllers/main_controller.dart';
-import 'package:healthy_heart_junior/presentation/controllers/theme_controller.dart';
 import 'package:healthy_heart_junior/presentation/controllers/user_controller.dart';
 
 
 class MainBinding implements Bindings {
   @override
   void dependencies() {
-     Get.lazyPut<ThemeController>(() => ThemeController()); 
     Get.lazyPut<MainController>(() => MainController());
     Get.lazyPut<UserController>(() => UserController());
     Get.lazyPut<HeartRateController>(() => HeartRateController());

@@ -21,8 +21,6 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Healthy heart',
       theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       initialBinding: MainBinding(),
       home: AnimatedSplashScreen(
@@ -49,7 +47,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('en'),
       fallbackLocale: const Locale('en'),
       defaultTransition: Transition.cupertino,
-      // themeMode: ThemeMode.light,
+      themeMode: ThemeMode.light,
       getPages: [
         GetPage(name: '/signin', page: () => const SignInView()),
         GetPage(name: '/signup', page: () => const SignUpView()),

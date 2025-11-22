@@ -25,7 +25,7 @@ class MainAppView extends GetView<MainController> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'جاري تحميل البيانات...',
+                  '  Loading...',
                   style: AppStyles.bodyMedium.copyWith(
                     color: AppColors.textSecondary,
                   ),
@@ -42,8 +42,6 @@ class MainAppView extends GetView<MainController> {
           children: controller.navItems.map((item) => item.screen).toList(),
         ),
         bottomNavigationBar: _buildBottomNavBar(),
-        floatingActionButton: _buildSettingsButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       );
     });
   }
@@ -104,16 +102,6 @@ class MainAppView extends GetView<MainController> {
           }).toList(),
         );
       }),
-    );
-  }
-  
-  Widget _buildSettingsButton() {
-    return FloatingActionButton(
-      onPressed: () => controller.navigateToSettings(),
-      backgroundColor: AppColors.primary,
-      foregroundColor: Colors.white,
-      elevation: 4,
-      child: Icon(Icons.settings, size: 24),
     );
   }
 }

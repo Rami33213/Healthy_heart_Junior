@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
 import 'package:healthy_heart_junior/core/constants/app_styles.dart';
+import 'package:healthy_heart_junior/presentation/controllers/theme_controller.dart';
 import 'package:healthy_heart_junior/presentation/controllers/user_controller.dart';
 import 'package:healthy_heart_junior/presentation/views/ecg_analysis/ecg_history_view.dart';
 import 'package:healthy_heart_junior/presentation/views/expert_system/expert_history_view.dart';
@@ -33,7 +34,6 @@ class SettingsView extends GetView<UserController> {
                       const SizedBox(height: 24),
                       _buildSettingsSection(),
                       const SizedBox(height: 24),
-                      _buildMedicalReportsSection(),
                     ],
                   ),
                 ),
@@ -54,7 +54,7 @@ class SettingsView extends GetView<UserController> {
         ),
         const SizedBox(width: 8),
         Text(
-          'الإعدادات والتقارير',
+          'Settings',
           style: AppStyles.headlineMedium.copyWith(
             color: AppColors.textPrimary,
             fontWeight: FontWeight.bold,
@@ -99,14 +99,14 @@ class SettingsView extends GetView<UserController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        user.name ?? 'مستخدم',
+                        user.name ?? 'User',
                         style: AppStyles.titleLarge.copyWith(
                           color: AppColors.textPrimary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        user.email ?? 'لا يوجد بريد إلكتروني',
+                        user.email ?? 'There is no Email',
                         style: AppStyles.bodyMedium.copyWith(
                           color: AppColors.textSecondary,
                         ),
@@ -123,12 +123,12 @@ class SettingsView extends GetView<UserController> {
             const SizedBox(height: 16),
             Divider(color: AppColors.textSecondary.withOpacity(0.3)),
             const SizedBox(height: 16),
-            _buildProfileInfoItem('الجنس', user.gender ?? 'غير محدد'),
+            _buildProfileInfoItem('Gender', user.gender ?? 'غير محدد'),
             _buildProfileInfoItem(
-              'العمر',
-              user.age != null ? '${user.age} سنة' : 'غير محدد',
+              'Age',
+              user.age != null ? '${user.age} ' : 'غير محدد',
             ),
-            _buildProfileInfoItem('الموقع', user.location ?? 'غير محدد'),
+            _buildProfileInfoItem('Location', user.location ?? 'غير محدد'),
           ],
         ),
       );
@@ -176,29 +176,31 @@ class SettingsView extends GetView<UserController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'الإعدادات',
+            'Settings',
             style: AppStyles.titleMedium.copyWith(
               color: AppColors.textPrimary,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 16),
-          _buildSettingItem('الإشعارات', Icons.notifications, true, (value) {}),
+          _buildSettingItem('Notifications', Icons.notifications, true, (value) {}),
           _buildSettingItem(
-            'المظهر الداكن',
+            ' Dark mode',
             Icons.dark_mode,
-            false,
-            (value) {},
+            Get.find<ThemeController>().isDarkMode.value,
+            (value) {
+               Get.find<ThemeController>().toggleTheme(value!);
+            },
           ),
           _buildSettingItem(
-            'اللغة',
+            'Language',
             Icons.language,
             null,
             () {},
-            trailingText: 'العربية',
+            trailingText: 'English',
           ),
-          _buildSettingItem('خصوصية البيانات', Icons.security, null, () {}),
-          _buildSettingItem('حول التطبيق', Icons.info, null, () {}),
+          _buildSettingItem('Privacy', Icons.security, null, () {}),
+          _buildSettingItem('About application ', Icons.info, null, () {}),
         ],
       ),
     );
@@ -268,123 +270,21 @@ class SettingsView extends GetView<UserController> {
     );
   }
 
-  Widget _buildMedicalReportsSection() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'التقارير الطبية',
-            style: AppStyles.titleMedium.copyWith(
-              color: AppColors.textPrimary,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 16),
-          // في presentation/views/settings/settings_view.dart
-          // استبدل هذا الجزء:
-          _buildReportItem('تقارير ضربات القلب', Icons.favorite, () {
-            Get.to(() => HeartRateHistoryView());
-          }),
-          _buildReportItem('تقارير تحليل ECG', Icons.monitor_heart_rounded, () {
-            Get.to(() => EcgHistoryView());
-          }),
-          _buildReportItem('تقارير التحاليل المخبرية', Icons.science, () {
-            Get.to(() => LabHistoryView());
-          }),
-          _buildReportItem('سجل الاستشارات', Icons.medical_services, () {
-            Get.to(() => ExpertHistoryView());
-          }),
-
-          // يصبح:
-          _buildReportItem('تقارير ضربات القلب', Icons.favorite, () {
-            Get.to(() => const HeartRateHistoryView());
-          }),
-          _buildReportItem('تقارير تحليل ECG', Icons.monitor_heart_rounded, () {
-            Get.to(() => const EcgHistoryView());
-          }),
-          _buildReportItem('تقارير التحاليل المخبرية', Icons.science, () {
-            Get.to(() => const LabHistoryView());
-          }),
-          _buildReportItem('سجل الاستشارات', Icons.medical_services, () {
-            Get.to(() => const ExpertHistoryView());
-          }),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildReportItem(String title, IconData icon, VoidCallback onTap) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-            child: Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.accent.withOpacity(0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(icon, color: AppColors.accent, size: 20),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    title,
-                    style: AppStyles.bodyMedium.copyWith(
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16,
-                  color: AppColors.textSecondary,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   void _editProfile() {
     Get.defaultDialog(
-      title: 'تعديل الملف الشخصي',
+      title: 'Edit personal informations  ',
       content: Column(
         children: [
           TextField(
             decoration: InputDecoration(
-              labelText: 'الاسم',
+              labelText: 'Name',
               border: OutlineInputBorder(),
             ),
           ),
           SizedBox(height: 16),
           TextField(
             decoration: InputDecoration(
-              labelText: 'العمر',
+              labelText: 'Age',
               border: OutlineInputBorder(),
             ),
             keyboardType: TextInputType.number,
@@ -392,21 +292,21 @@ class SettingsView extends GetView<UserController> {
           SizedBox(height: 16),
           TextField(
             decoration: InputDecoration(
-              labelText: 'الموقع',
+              labelText: 'Location',
               border: OutlineInputBorder(),
             ),
           ),
         ],
       ),
       actions: [
-        TextButton(onPressed: () => Get.back(), child: Text('إلغاء')),
+        TextButton(onPressed: () => Get.back(), child: Text('Cancel')),
         ElevatedButton(
           onPressed: () {
             // تحديث البيانات
             Get.back();
-            Get.snackbar('نجاح', 'تم تحديث الملف الشخصي');
+            Get.snackbar('Success', 'Profile has been updated');
           },
-          child: Text('حفظ'),
+          child: Text('save'),
         ),
       ],
     );

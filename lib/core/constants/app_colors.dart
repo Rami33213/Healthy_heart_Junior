@@ -25,4 +25,18 @@ class AppColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
+   static const Color authBackground = Color.fromARGB(251, 255, 255, 255);
+  static const Color authCardBackground = Color(0xFFFFFFFF);
+  static const Color authPrimary = Color(0xFF4169E1);
+  static const Color authTextPrimary = Color(0xFF262626);
+  static const Color authTextSecondary = Color(0xFF504F4F);
+  static const Color authIconColor = Color(0xFF504F4F);
+  static const Color authFieldBackground = Color(0xFFEDECEC);
+  static const Color authBorderColor = Color(0xFFEDECEC);
+  static const Color authShadowColor = Color(0xFFE0E0E0);
+  static const Color authGreyText = Color(0xFF5B5B5B);
+  static const Color authCheckboxText = Color(0xFF636566);
+  
+  static const Color authButtonBackground = Color(0xFF4169E1);
+  static const Color authGoogleButtonBackground = Color(0xFF000000);
 }

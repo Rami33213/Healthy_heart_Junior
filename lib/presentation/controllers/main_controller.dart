@@ -1,6 +1,7 @@
 // presentation/controllers/main_controller.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthy_heart_junior/presentation/views/reports/reports_view.dart';
 import '../../data/models/user_model.dart';
 import 'user_controller.dart';
 import 'heart_rate_controller.dart';
@@ -22,11 +23,13 @@ class MainController extends GetxController {
   final RxBool isLoading = false.obs;
   
   final List<BottomNavItem> navItems = [
-    BottomNavItem('الرئيسية', Icons.home_filled, const HomeView()),
-    BottomNavItem('ضربات القلب', Icons.favorite, const HeartRateView()),
+    BottomNavItem('Home', Icons.home_filled, const HomeView()),
+    BottomNavItem('Heartbeats', Icons.favorite, const HeartRateView()),
     BottomNavItem('ECG', Icons.monitor_heart_outlined, const EcgAnalysisView()),
-    BottomNavItem('المختبر', Icons.science, const LabAnalysisView()),
-    BottomNavItem('الخبير', Icons.medical_services, const ExpertSystemView()),
+    // BottomNavItem('المختبر', Icons.science, const LabAnalysisView()),
+    // BottomNavItem('الخبير', Icons.medical_services, const ExpertSystemView()),
+    BottomNavItem('Reports', Icons.assignment, const ReportsView()),
+    BottomNavItem('Settings', Icons.settings, const SettingsView()),
   ];
   
   @override

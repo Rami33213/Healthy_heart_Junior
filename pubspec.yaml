@@ -39,6 +39,7 @@ dependencies:
   http: 
   shared_preferences: ^2.3.0
   get: ^4.7.2
+  url_launcher: ^6.1.11
 
 dev_dependencies:
   flutter_test:

@@ -1,11 +1,16 @@
-// presentation/views/home/home_view.dart
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:get/route_manager.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
 import 'package:healthy_heart_junior/core/constants/app_styles.dart';
 import 'package:healthy_heart_junior/core/theme/app_theme.dart';
 import 'package:healthy_heart_junior/presentation/controllers/main_controller.dart';
+import 'package:healthy_heart_junior/presentation/views/doctors/doctors_view.dart';
+import 'package:healthy_heart_junior/presentation/views/expert_system/expert_system_view.dart';
+import 'package:healthy_heart_junior/presentation/views/heart_rate/heart_rate_view.dart';
+import 'package:healthy_heart_junior/presentation/views/lab_analysis/lab_analysis_view.dart';
+import 'package:healthy_heart_junior/presentation/views/settings/settings_view.dart';
 
 class HomeView extends GetView<MainController> {
   const HomeView({super.key});
@@ -61,14 +66,15 @@ class HomeView extends GetView<MainController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hello ${user.name ?? "User"}',
+                ' ${user.name ?? "User"}',
                 style: AppStyles.headlineMedium.copyWith(
                   color: AppColors.textPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                'Keep your heart healthy',
+                // 'Keep your heart healthy',
+                'Hello',
                 style: AppStyles.bodyMedium.copyWith(
                   color: AppColors.textSecondary,
                 ),
@@ -157,19 +163,6 @@ class HomeView extends GetView<MainController> {
 
   Widget _buildHealthStats() {
     return
-    // Container(
-    //   padding: const EdgeInsets.all(20),
-    //   decoration: BoxDecoration(
-    //     color: AppColors.surface,
-    //     borderRadius: BorderRadius.circular(20),
-    //     boxShadow: [
-    //       BoxShadow(
-    //         color: Colors.black.withOpacity(0.05),
-    //         blurRadius: 20,
-    //         offset: const Offset(0, 5),
-    //       ),
-    //     ],
-    //   ),
     Column(
       children: [
         Row(
@@ -187,13 +180,23 @@ class HomeView extends GetView<MainController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildStatItem('Doctors', Icons.person, AppColors.primary),
-            _buildStatItem('Laboratory', Icons.science, AppColors.warning),
+            _buildStatItem(
+              'Doctors',
+              Icons.person,
+              AppColors.primary,
+               () => Get.to(() => const DoctorsView()),
+            ),
+            _buildStatItem(
+              'Laboratory',
+              Icons.science,
+              AppColors.warning,
+              () => Get.to(() => const LabAnalysisView()),
+            ),
             _buildStatItem(
               'Assistant',
               Icons.medical_services,
               AppColors.success,
-              
+              () => Get.to(() => const ExpertSystemView()),
             ),
           ],
         ),
@@ -202,7 +205,12 @@ class HomeView extends GetView<MainController> {
     //  );
   }
 
-  Widget _buildStatItem(String label, IconData icon, Color color) {
+  Widget _buildStatItem(
+    String label,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
     return Column(
       children: [
         Container(
@@ -217,17 +225,10 @@ class HomeView extends GetView<MainController> {
             icon: Icon(icon),
             color: color,
             iconSize: 30,
-            onPressed: () {},
+            onPressed: onTap,
           ),
         ),
         const SizedBox(height: 8),
-        // Text(
-        //   value,
-        //   style: AppStyles.titleLarge.copyWith(
-        //     fontWeight: FontWeight.bold,
-        //     color: AppColors.textPrimary,
-        //   ),
-        // ),
         Text(
           label,
           style: AppStyles.bodySmall.copyWith(color: AppColors.textPrimary),

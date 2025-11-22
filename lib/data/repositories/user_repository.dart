@@ -13,11 +13,11 @@ class UserRepository {
     await Future.delayed(const Duration(seconds: 1));
     return UserModel(
       id: '1',
-      name: 'أحمد محمد',
-      email: 'ahmed@example.com',
-      gender: 'ذكر',
-      age: 35,
-      location: 'الرياض',
+      name: 'batoul',
+      email: 'batoul@example.com',
+      gender: 'Female',
+      age: 20,
+      location: 'Damascus',
       createdAt: DateTime.now(),
     );
   }

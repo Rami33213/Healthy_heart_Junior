@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
 import 'package:healthy_heart_junior/core/theme/app_theme.dart';
 import 'package:healthy_heart_junior/presentation/views/auth/signin_view.dart';
@@ -9,7 +10,10 @@ import 'package:healthy_heart_junior/presentation/views/auth/signup_view.dart';
 import 'package:healthy_heart_junior/presentation/views/main_app/main_app_view.dart';
 import 'package:healthy_heart_junior/presentation/views/main_app/main_binding.dart';
 
-void main() {
+Future<void> main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+   await GetStorage.init(); // مهم
+
   runApp(const MyApp());
 }
 

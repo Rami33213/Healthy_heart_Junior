@@ -4,7 +4,6 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
 import 'package:healthy_heart_junior/core/constants/app_styles.dart';
-import 'package:healthy_heart_junior/core/theme/app_theme.dart';
 import 'package:healthy_heart_junior/presentation/controllers/main_controller.dart';
 
 class MainAppView extends GetView<MainController> {

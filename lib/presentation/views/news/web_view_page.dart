@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
 import 'package:healthy_heart_junior/core/constants/app_styles.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
   final String url;

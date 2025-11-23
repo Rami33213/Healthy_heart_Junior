@@ -1,7 +1,5 @@
 // presentation/views/lab_analysis/lab_history_view.dart
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../../controllers/lab_controller.dart';
 
 class LabHistoryView extends StatelessWidget {
   const LabHistoryView({super.key});

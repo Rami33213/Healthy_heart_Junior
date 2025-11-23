@@ -237,7 +237,7 @@ class SignUpView extends GetView<SignUpController> {
                         items: controller.days.map((String day) {
                           return DropdownMenuItem<String>(
                             value: day,
-                            child: Text('$day', style: AppStyles.bodyMedium),
+                            child: Text(day, style: AppStyles.bodyMedium),
                           );
                         }).toList(),
                         onChanged: (String? newValue) {

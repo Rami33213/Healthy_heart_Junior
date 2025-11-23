@@ -11,8 +11,6 @@ import 'expert_controller.dart';
 import '../../presentation/views/home/home_view.dart';
 import '../../presentation/views/heart_rate/heart_rate_view.dart';
 import '../../presentation/views/ecg_analysis/ecg_analysis_view.dart';
-import '../../presentation/views/lab_analysis/lab_analysis_view.dart';
-import '../../presentation/views/expert_system/expert_system_view.dart';
 import '../../presentation/views/settings/settings_view.dart';
 
 class MainController extends GetxController {

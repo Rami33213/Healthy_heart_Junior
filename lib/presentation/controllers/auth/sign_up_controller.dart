@@ -228,60 +228,60 @@ List<String> get days {
     return null;
   }
 
- Future<void> signUp() async {
-    // التحقق من تاريخ الميلاد
-    final birthDateError = validateBirthDate();
-    if (birthDateError != null) {
-      Get.snackbar(
-        "Error",
-        birthDateError,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-      return;
-    }
-
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
-
-    isLoading.value = true;
-
-    try {
-      final userData = SignUpModel(
-        fullName: fullNameController.text.trim(),
-        email: emailController.text.trim(),
-        phone: phoneController.text.trim(),
-        password: passwordController.text,
-        gender: selectedGender.value,
-        birthYear: birthDate.year, // استخدام السنة من التاريخ الكامل
-        location: selectedLocation.value,
-      );
-
-      final success = await _authRepository.signUp(userData);
-
-      if (success) {
-        Get.snackbar(
-          "Success",
-          "Welcome! Account created successfully",
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-        Get.offAllNamed('/main');
-      }
-    } catch (e) {
-      Get.snackbar(
-        "Error",
-        "Failed to create account. Please try again.",
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    } finally {
-      isLoading.value = false;
-    }
+Future<void> signUp() async {
+  final birthDateError = validateBirthDate();
+  if (birthDateError != null) {
+    Get.snackbar(
+      "Error",
+      birthDateError,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+    );
+    return;
   }
 
-  @override
+  if (!formKey.currentState!.validate()) {
+    return;
+  }
+
+  isLoading.value = true;
+
+  try {
+    final userData = SignUpModel(
+      fullName: fullNameController.text.trim(),
+      email: emailController.text.trim(),
+      phone: phoneController.text.trim(),
+      password: passwordController.text,
+      gender: selectedGender.value,
+      birthYear: birthDate.year,
+      location: selectedLocation.value,
+    );
+
+    // 🔴 التعديل هون: مرّر الـ birthDate للريبو
+    final success = await _authRepository.signUp(userData, birthDate);
+
+    if (success) {
+      Get.snackbar(
+        "Success",
+        "Welcome! Account created successfully",
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+      Get.offAllNamed('/main');
+    }
+  } catch (e) {
+    Get.snackbar(
+      "Error",
+      "Failed to create account. Please try again.",
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+    );
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+   @override
   void onClose() {
     fullNameController.dispose();
     emailController.dispose();

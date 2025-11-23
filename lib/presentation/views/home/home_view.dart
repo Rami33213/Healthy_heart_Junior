@@ -4,15 +4,12 @@ import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:get/route_manager.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
 import 'package:healthy_heart_junior/core/constants/app_styles.dart';
-import 'package:healthy_heart_junior/core/theme/app_theme.dart';
 import 'package:healthy_heart_junior/data/models/news_model.dart';
 import 'package:healthy_heart_junior/presentation/controllers/main_controller.dart';
 import 'package:healthy_heart_junior/presentation/views/doctors/doctors_view.dart';
 import 'package:healthy_heart_junior/presentation/views/expert_system/expert_system_view.dart';
-import 'package:healthy_heart_junior/presentation/views/heart_rate/heart_rate_view.dart';
 import 'package:healthy_heart_junior/presentation/views/lab_analysis/lab_analysis_view.dart';
 import 'package:healthy_heart_junior/presentation/views/news/web_view_page.dart';
-import 'package:healthy_heart_junior/presentation/views/settings/settings_view.dart';
 
 class HomeView extends GetView<MainController> {
   const HomeView({super.key});
@@ -121,7 +118,7 @@ class HomeView extends GetView<MainController> {
       url: 'https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise/art-20048389',
     ),
   ];
-  return Container(
+  return SizedBox(
     height: 230,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,

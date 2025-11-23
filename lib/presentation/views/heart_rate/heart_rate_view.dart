@@ -1,13 +1,9 @@
 // presentation/views/heart_rate/heart_rate_view.dart
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
 import 'package:healthy_heart_junior/core/constants/app_styles.dart';
-import 'package:healthy_heart_junior/core/theme/app_theme.dart';
 import 'package:healthy_heart_junior/data/models/heart_rate_model.dart';
 import 'package:healthy_heart_junior/presentation/controllers/heart_rate_controller.dart';
 

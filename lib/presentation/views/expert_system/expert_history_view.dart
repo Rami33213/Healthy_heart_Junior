@@ -1,7 +1,5 @@
 // presentation/views/expert_system/expert_history_view.dart
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../../controllers/expert_controller.dart';
 
 class ExpertHistoryView extends StatelessWidget {
   const ExpertHistoryView({super.key});

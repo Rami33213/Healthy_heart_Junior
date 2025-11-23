@@ -1,13 +1,10 @@
 // presentation/views/ecg_analysis/ecg_analysis_view.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
 import 'package:healthy_heart_junior/core/constants/app_styles.dart';
 import 'package:healthy_heart_junior/data/models/ecg_model.dart';
 import 'package:healthy_heart_junior/presentation/controllers/ecg_controller.dart';
-import 'package:healthy_heart_junior/presentation/controllers/main_controller.dart';
 
 class EcgAnalysisView extends GetView<EcgController> {
   const EcgAnalysisView({super.key});

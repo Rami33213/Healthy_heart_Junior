@@ -1,7 +1,5 @@
 // presentation/views/ecg_analysis/ecg_history_view.dart
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../../controllers/ecg_controller.dart';
 
 class EcgHistoryView extends StatelessWidget {
   const EcgHistoryView({super.key});

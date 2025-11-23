@@ -1,12 +1,7 @@
 // presentation/controllers/expert_controller.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:get/instance_manager.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
-import 'package:healthy_heart_junior/core/theme/app_theme.dart';
 import 'package:healthy_heart_junior/data/models/expert_qa_model.dart';
 import 'package:healthy_heart_junior/data/repositories/expert_repository.dart';
 

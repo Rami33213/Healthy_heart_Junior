@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
 import 'package:healthy_heart_junior/core/constants/app_styles.dart';
 import 'package:healthy_heart_junior/presentation/controllers/auth/sign_in_controller.dart';

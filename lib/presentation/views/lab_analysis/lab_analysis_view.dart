@@ -1,8 +1,6 @@
 // presentation/views/lab_analysis/lab_analysis_view.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
 import 'package:healthy_heart_junior/core/constants/app_styles.dart';
 import 'package:healthy_heart_junior/data/models/lab_model.dart';
@@ -41,7 +39,8 @@ class LabAnalysisView extends GetView<LabController> {
       ),
     );
   }
-  
+
+  // ───────── header ─────────
   Widget _buildHeader() {
     return Row(
       children: [
@@ -60,7 +59,8 @@ class LabAnalysisView extends GetView<LabController> {
       ],
     );
   }
-  
+
+  // ───────── input section ─────────
   Widget _buildInputSection() {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -87,69 +87,73 @@ class LabAnalysisView extends GetView<LabController> {
             ),
           ),
           const SizedBox(height: 24),
-          
+
+          // معدل ضربات القلب
           _buildLabInputField(
-            'معدل ضربات القلب',
-            'نبضة/دقيقة',
-            controller.heartRate,
-            Icons.favorite,
-            AppColors.danger,
+            label: 'معدل ضربات القلب',
+            unit: 'نبضة/دقيقة',
+            value: controller.heartRate,
+            icon: Icons.favorite,
+            color: AppColors.danger,
           ),
           const SizedBox(height: 16),
-          
+
+          // الضغط الانقباضي والانبساطي
           Row(
             children: [
               Expanded(
                 child: _buildLabInputField(
-                  'الضغط الانقباضي',
-                  'mmHg',
-                  controller.systolicBP,
-                  Icons.monitor_heart,
-                  AppColors.primary,
+                  label: 'الضغط الانقباضي',
+                  unit: 'mmHg',
+                  value: controller.systolicBP,
+                  icon: Icons.monitor_heart,
+                  color: AppColors.primary,
                 ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: _buildLabInputField(
-                  'الضغط الانبساطي',
-                  'mmHg',
-                  controller.diastolicBP,
-                  Icons.monitor_heart,
-                  AppColors.primary,
+                  label: 'الضغط الانبساطي',
+                  unit: 'mmHg',
+                  value: controller.diastolicBP,
+                  icon: Icons.monitor_heart,
+                  color: AppColors.primary,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          
+
+          // السكر
           _buildLabInputField(
-            'مستوى السكر في الدم',
-            'mg/dL',
-            controller.bloodSugar as RxInt,
-            Icons.water_drop,
-            AppColors.warning,
+            label: 'مستوى السكر في الدم',
+            unit: 'mg/dL',
+            value: controller.bloodSugar,
+            icon: Icons.water_drop,
+            color: AppColors.warning,
           ),
           const SizedBox(height: 16),
-          
+
+          // CK-MB & Troponin
           Row(
             children: [
               Expanded(
                 child: _buildLabInputField(
-                  'إنزيم CK-MB',
-                  'U/L',
-                  controller.ckMb as RxInt,
-                  Icons.biotech,
-                  AppColors.accent,
+                  label: 'إنزيم CK-MB',
+                  unit: 'U/L',
+                  value: controller.ckMb,
+                  icon: Icons.biotech,
+                  color: AppColors.accent,
                 ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: _buildLabInputField(
-                  'بروتين Troponin',
-                  'ng/mL',
-                  controller.troponin as RxInt,
-                  Icons.biotech,
-                  AppColors.accent,
+                  label: 'بروتين Troponin',
+                  unit: 'ng/mL',
+                  value: controller.troponin,
+                  icon: Icons.biotech,
+                  color: AppColors.accent,
                 ),
               ),
             ],
@@ -158,14 +162,15 @@ class LabAnalysisView extends GetView<LabController> {
       ),
     );
   }
-  
-  Widget _buildLabInputField(
-    String label,
-    String unit,
-    RxInt value,
-    IconData icon,
-    Color color,
-  ) {
+
+  /// حقل إدخال رقمي عام لكل القيم
+  Widget _buildLabInputField({
+    required String label,
+    required String unit,
+    required RxDouble value,
+    required IconData icon,
+    required Color color,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -189,21 +194,22 @@ class LabAnalysisView extends GetView<LabController> {
           decoration: BoxDecoration(
             color: AppColors.background,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.textSecondary.withOpacity(0.3)),
+            border: Border.all(
+              color: AppColors.textSecondary.withOpacity(0.3),
+            ),
           ),
           child: Row(
             children: [
               Expanded(
                 child: Obx(() {
                   return TextField(
-                    controller: TextEditingController(text: value.value.toString()),
-                    onChanged: (text) {
-                      final parsed = int.tryParse(text);
-                      if (parsed != null) {
-                        value.value = parsed;
-                      }
-                    },
-                    keyboardType: TextInputType.number,
+                    controller: TextEditingController(
+                      text: value.value.toString(),
+                    ),
+                    onChanged: (text) =>
+                        controller.updateValue(value, text),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'أدخل $label',
@@ -223,28 +229,33 @@ class LabAnalysisView extends GetView<LabController> {
       ],
     );
   }
-  
-  
+
+  // ───────── action buttons ─────────
   Widget _buildActionButtons() {
     return Row(
       children: [
         Expanded(
           child: Obx(() {
             return ElevatedButton.icon(
-              onPressed: controller.isAnalyzing.value ? null : () => controller.analyzeLabResults(),
-              icon: controller.isAnalyzing.value 
-                  ? SizedBox(
+              onPressed: controller.isAnalyzing.value
+                  ? null
+                  : controller.analyzeLabResults,
+              icon: controller.isAnalyzing.value
+                  ? const SizedBox(
                       width: 20,
                       height: 20,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Colors.white),
                       ),
                     )
-                  : Icon(Icons.analytics, color: Colors.white),
+                  : const Icon(Icons.analytics, color: Colors.white),
               label: Text(
-                controller.isAnalyzing.value ? 'جاري التحليل...' : 'تحليل النتائج',
-                style: TextStyle(color: Colors.white),
+                controller.isAnalyzing.value
+                    ? 'جاري التحليل...'
+                    : 'تحليل النتائج',
+                style: const TextStyle(color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
@@ -258,9 +269,12 @@ class LabAnalysisView extends GetView<LabController> {
         ),
         const SizedBox(width: 12),
         OutlinedButton.icon(
-          onPressed: () => controller.resetForm(),
+          onPressed: controller.resetForm,
           icon: Icon(Icons.refresh, color: AppColors.primary),
-          label: Text('إعادة تعيين', style: TextStyle(color: AppColors.primary)),
+          label: Text(
+            'إعادة تعيين',
+            style: TextStyle(color: AppColors.primary),
+          ),
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: AppColors.primary),
             padding: const EdgeInsets.symmetric(vertical: 16),
@@ -272,7 +286,8 @@ class LabAnalysisView extends GetView<LabController> {
       ],
     );
   }
-  
+
+  // ───────── history section ─────────
   Widget _buildHistorySection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -287,12 +302,14 @@ class LabAnalysisView extends GetView<LabController> {
         const SizedBox(height: 12),
         Obx(() {
           final history = controller.labHistory;
+
           if (history.isEmpty) {
             return Container(
               padding: const EdgeInsets.all(40),
               child: Column(
                 children: [
-                  Icon(Icons.history, size: 60, color: AppColors.textSecondary),
+                  Icon(Icons.history,
+                      size: 60, color: AppColors.textSecondary),
                   const SizedBox(height: 16),
                   Text(
                     'لا توجد تحليلات سابقة',
@@ -304,18 +321,21 @@ class LabAnalysisView extends GetView<LabController> {
               ),
             );
           }
-          
+
           return Column(
-            children: history.take(3).map((analysis) => _buildHistoryItem(analysis)).toList(),
+            children: history
+                .take(3)
+                .map((analysis) => _buildHistoryItem(analysis))
+                .toList(),
           );
         }),
       ],
     );
   }
-  
+
   Widget _buildHistoryItem(LabModel analysis) {
     final isNormal = analysis.result == 'normal';
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -336,7 +356,8 @@ class LabAnalysisView extends GetView<LabController> {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-              color: (isNormal ? AppColors.success : AppColors.warning).withOpacity(0.1),
+              color: (isNormal ? AppColors.success : AppColors.warning)
+                  .withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -363,7 +384,8 @@ class LabAnalysisView extends GetView<LabController> {
                   ),
                 ),
                 Text(
-                  '${analysis.heartRate} نبضة - ${analysis.systolicBP}/${analysis.diastolicBP} ضغط',
+                  '${analysis.heartRate} نبضة - '
+                  '${analysis.systolicBP}/${analysis.diastolicBP} ضغط',
                   style: AppStyles.bodySmall.copyWith(
                     color: AppColors.textSecondary,
                   ),
@@ -372,11 +394,13 @@ class LabAnalysisView extends GetView<LabController> {
             ),
           ),
           Chip(
-            backgroundColor: (isNormal ? AppColors.success : AppColors.warning).withOpacity(0.1),
+            backgroundColor: (isNormal ? AppColors.success : AppColors.warning)
+                .withOpacity(0.1),
             label: Text(
               '${(analysis.confidence * 100).toStringAsFixed(1)}%',
               style: TextStyle(
-                color: isNormal ? AppColors.success : AppColors.warning,
+                color:
+                    isNormal ? AppColors.success : AppColors.warning,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -385,7 +409,7 @@ class LabAnalysisView extends GetView<LabController> {
       ),
     );
   }
-  
+
   String _formatDate(DateTime date) {
     return '${date.day}/${date.month}/${date.year}';
   }

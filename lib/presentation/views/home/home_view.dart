@@ -5,11 +5,13 @@ import 'package:get/route_manager.dart';
 import 'package:healthy_heart_junior/core/constants/app_colors.dart';
 import 'package:healthy_heart_junior/core/constants/app_styles.dart';
 import 'package:healthy_heart_junior/core/theme/app_theme.dart';
+import 'package:healthy_heart_junior/data/models/news_model.dart';
 import 'package:healthy_heart_junior/presentation/controllers/main_controller.dart';
 import 'package:healthy_heart_junior/presentation/views/doctors/doctors_view.dart';
 import 'package:healthy_heart_junior/presentation/views/expert_system/expert_system_view.dart';
 import 'package:healthy_heart_junior/presentation/views/heart_rate/heart_rate_view.dart';
 import 'package:healthy_heart_junior/presentation/views/lab_analysis/lab_analysis_view.dart';
+import 'package:healthy_heart_junior/presentation/views/news/web_view_page.dart';
 import 'package:healthy_heart_junior/presentation/views/settings/settings_view.dart';
 
 class HomeView extends GetView<MainController> {
@@ -105,61 +107,150 @@ class HomeView extends GetView<MainController> {
   }
 
   Widget _buildNewsSection() {
-    return Container(
-      height: 200,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Latest medical news',
-            style: AppStyles.titleMedium.copyWith(
+    final List<NewsItem> newsItems = [
+    NewsItem(
+      title: 'تطورات جديدة في علاج أمراض القلب',
+      url: 'https://www.who.int/news-room/fact-sheets/detail/cardiovascular-diseases-(cvds)',
+    ),
+    NewsItem(
+      title: 'أحدث أبحاث ضغط الدم المرتفع',
+      url: 'https://www.heart.org/en/health-topics/high-blood-pressure',
+    ),
+    NewsItem(
+      title: 'نصائح للحفاظ على صحة القلب',
+      url: 'https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise/art-20048389',
+    ),
+  ];
+  return Container(
+    height: 230,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Latest medical news',
+          style: AppStyles.titleMedium.copyWith(
               fontWeight: FontWeight.bold,
               color: AppColors.textPrimary,
             ),
+        ),
+        const SizedBox(height: 8),
+        Expanded(
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: newsItems.length,
+            itemBuilder: (context, index) {
+              final news = newsItems[index];
+              return _buildNewsCard(news);
+            },
           ),
-          const SizedBox(height: 8),
-          Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 3, // مؤقت
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 280,
-                  margin: const EdgeInsets.only(right: 12),
-                  decoration: BoxDecoration(
-                    gradient: AppColors.primaryGradient,
-                    borderRadius: BorderRadius.circular(16),
+        ),
+      ],
+    ),
+  );
+}
+    // return Container(
+    //   height: 230,
+    //   child: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       Text(
+    //         'Latest medical news',
+    //         style: AppStyles.titleMedium.copyWith(
+    //           fontWeight: FontWeight.bold,
+    //           color: AppColors.textPrimary,
+    //         ),
+    //       ),
+    //       const SizedBox(height: 8),
+    //       Expanded(
+    //         child: ListView.builder(
+              // scrollDirection: Axis.horizontal,
+              // itemCount: 3, // مؤقت
+              // itemBuilder: (context, index) {
+              //   return Container(
+              //     width: 280,
+              //     margin: const EdgeInsets.only(right: 12),
+              //     decoration: BoxDecoration(
+              //       gradient: AppColors.primaryGradient,
+              //       borderRadius: BorderRadius.circular(16),
+              //     ),
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(16.0),
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           Text(
+              //             'New developments in heart treatment',
+              //             style: AppStyles.bodyMedium.copyWith(
+              //               color: Colors.white,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //           const Spacer(),
+              //           Text(
+              //             'Read more →',
+              //             style: AppStyles.bodySmall.copyWith(
+              //               color: Colors.white.withOpacity(0.8),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   );
+              // },
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+  Widget _buildNewsCard(NewsItem news) {
+  return Container(
+    width: 280,
+    margin: const EdgeInsets.only(right: 12),
+    decoration: BoxDecoration(
+      gradient: AppColors.primaryGradient,
+      borderRadius: BorderRadius.circular(16),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            news.title,
+            style: AppStyles.bodyMedium.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          GestureDetector(
+            onTap: () {
+              Get.to(() => WebViewPage(
+                url: news.url,
+                title: 'الخبر الطبي',
+              ));
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'اقرأ المزيد →',
+                  style: AppStyles.bodySmall.copyWith(
+                    color: Colors.white.withOpacity(0.8),
+                    fontWeight: FontWeight.bold,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'New developments in heart treatment',
-                          style: AppStyles.bodyMedium.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          'Read more →',
-                          style: AppStyles.bodySmall.copyWith(
-                            color: Colors.white.withOpacity(0.8),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
+                ),
+              ],
             ),
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildHealthStats() {
     return
@@ -167,6 +258,7 @@ class HomeView extends GetView<MainController> {
       children: [
         Row(
           children: [
+            const SizedBox(height: 8),
             Text(
               "Services",
               style: AppStyles.titleMedium.copyWith(
